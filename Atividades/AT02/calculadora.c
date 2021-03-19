@@ -16,7 +16,7 @@ int main() {
 }
 
 void exibeMenu() {
-    printf("Escolha a opção desejada:\n"
+    printf("escolha a opção desejada:\n"
            " 0 - Sair\n 1 - Somar\n 2 - Subtrair\n 3 - Multiplicar\n 4 - Dividir\n");
 
 }
@@ -28,7 +28,7 @@ void defineOperacao(int opcao) {
         return;
     }
     if (opcao > 4 || opcao < 0) {
-        printf("Escolha um opção disponível");
+        printf("escolha um opção disponível");
         return;
     }
     printf("informe o primeiro valor\n");
@@ -49,7 +49,7 @@ void defineOperacao(int opcao) {
             divisao(valor1, valor2);
             break;
         default:
-            printf("Digite um inteiro de 1 a 4\n");
+            printf("digite um inteiro de 1 a 4\n");
     }
 }
 void soma(float valor1, float valor2) {
