@@ -70,7 +70,9 @@ void multiplicacao(int valor1, int valor2) {
 }
 
 void divisao(int valor1, int valor2) {
+    float resto;
     float resultado;
     resultado = valor1 / valor2;
-    printf("resultado da divisão é: %f\n", resultado);
+    resto = valor1%valor2;
+    printf("resultado da divisão é: %f e resto é: %f\n", resultado, resto);
 }
