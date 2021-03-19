@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <math.h>
 
 void exibeMenu();
 void defineOperacao(int opcao);
@@ -19,6 +18,7 @@ int main() {
 void exibeMenu() {
     printf("Escolha a opção desejada:\n"
            " 0 - Sair\n 1 - Somar\n 2 - Subtrair\n 3 - Multiplicar\n 4 - Dividir\n");
+
 }
 
 void defineOperacao(int opcao) {
