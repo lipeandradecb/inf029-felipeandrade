@@ -1,11 +1,12 @@
 #include <stdio.h>
+#include <math.h>
 
 void exibeMenu();
 void defineOperacao(int opcao);
-void soma(int valor1, int valor2);
-void subtracao(int valor1, int valor2);
-void multiplicacao(int valor1, int valor2);
-void divisao(int valor1, int valor2);
+void soma(float valor1, float valor2);
+void subtracao(float valor1, float valor2);
+void multiplicacao(float valor1, float valor2);
+void divisao(float valor1, float valor2);
 
 int main() {
     int opcaomenu;
@@ -51,28 +52,26 @@ void defineOperacao(int opcao) {
             printf("Digite um inteiro de 1 a 4\n");
     }
 }
-void soma(int valor1, int valor2) {
+void soma(float valor1, float valor2) {
     float resultado;
     resultado = valor1 + valor2;
-    printf("resultado da soma é: %f\n", resultado);
+    printf("resultado da soma é: %.2f\n", resultado);
 }
 
-void subtracao(int valor1, int valor2) {
+void subtracao(float valor1, float valor2) {
     float resultado;
     resultado = (valor1 - valor2);
-    printf("resultado da subtração é: %f\n", resultado);
+    printf("resultado da subtração é: %.2f\n", resultado);
 }
 
-void multiplicacao(int valor1, int valor2) {
+void multiplicacao(float valor1, float valor2) {
     float resultado;
     resultado = valor1 * valor2;
-    printf("resultado da multiplicação é: %f\n", resultado);
+    printf("resultado da multiplicação é: %.2f\n", resultado);
 }
 
-void divisao(int valor1, int valor2) {
-    float resto;
+void divisao(float valor1, float valor2) {
     float resultado;
     resultado = valor1 / valor2;
-    resto = valor1%valor2;
-    printf("resultado da divisão é: %f e resto é: %f\n", resultado, resto);
+    printf("resultado da divisão é: %.2f\n", resultado);
 }
