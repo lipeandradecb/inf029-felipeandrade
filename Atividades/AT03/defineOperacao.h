@@ -1,0 +1,1 @@
+void defineOperacao(int opcao);
