@@ -4,10 +4,13 @@
 
 int cadastraAluno();
 int cadastraProfessor();
+int cadastraDisciplina();
 void listaAlunos(int qtdeAlunos);
 void listaProfessores(int qtdeProfessores);
+void listaDisciplinas(int qtdeDisciplinas);
 void menuAlunos();
 void menuProfessores();
+void menuDisciplinas();
 void chamaMenu();
 
 typedef struct dataNascimento {
@@ -30,6 +33,13 @@ typedef struct dadosProfessor {
     char cpf[12];
 } Professor;
 
+typedef struct dadosDisciplina {
+    char nome[50];
+    int codigo;
+    int semestre;
+    Professor professor;
+} Disciplina;
+
 int main() {
     chamaMenu();
 }
@@ -44,7 +54,7 @@ void chamaMenu() {
         printf("0 - Sair\n");
         printf("1 - Alunos\n");
         printf("2 - Professores\n");
-        printf("2 - Disciplinas\n");
+        printf("3 - Disciplinas\n");
         scanf("%d", &opcaoMenu);
         switch (opcaoMenu) {
             case 0: {
@@ -60,6 +70,13 @@ void chamaMenu() {
             case 2: {
                 menuProfessores();
                 break;
+            }
+            case 3: {
+                menuDisciplinas();
+                break;
+            }
+            default: {
+                printf("Algo errado aconteceu");
             }
         }
     }
@@ -90,6 +107,9 @@ void menuAlunos() {
             case 2: {
                 listaAlunos(qtdeAlunos);
                 break;
+            }
+            default: {
+                printf("Algo errado aconteceu");
             }
         }
     }
@@ -167,15 +187,18 @@ void menuProfessores() {
                 listaProfessores(qtdeProfessores);
                 break;
             }
+            default: {
+                printf("Algo errado aconteceu");
+            }
         }
     }
 }
 
 int cadastraProfessor() {
-    Aluno listaProfessores[TAM];
+    Professor listaProfessores[TAM];
     int qtdeProfessores = 0;
 
-    printf("Cadastro de Aluno\n");
+    printf("Cadastro de Professor\n");
     printf("Digite a matrícula: \n");
     scanf("%d", &listaProfessores[qtdeProfessores].matricula);
     printf("Digite o nome: \n");
@@ -204,7 +227,7 @@ int cadastraProfessor() {
 }
 
 void listaProfessores(int qtdeProfessores) {
-    Aluno listaProfessores[TAM];
+    Professor listaProfessores[TAM];
     int i;
     printf("Professores cadastrados \n");
     for (i = 0; i < qtdeProfessores; i++){
@@ -217,3 +240,62 @@ void listaProfessores(int qtdeProfessores) {
     }
 }
 
+void menuDisciplinas() {
+    int opcaoMenuDisciplinas, qtdeDisciplinas;
+    int sair = 0;
+
+    while (!sair) {
+        printf("Menu Disciplinas\n");
+        printf("Digite a opção:\n");
+        printf("0 - Sair\n");
+        printf("1 - Cadastrar disciplina\n");
+        printf("2 - Listar disciplinas\n");
+        scanf("%d", &opcaoMenuDisciplinas);
+        switch (opcaoMenuDisciplinas) {
+            case 0: {
+                printf("Saindo do menu de disciplinas\n");
+                printf("Voltando ao menu principal\n");
+                sair = 1;
+                break;
+            }
+            case 1: {
+                qtdeDisciplinas = cadastraDisciplina();
+                break;
+            }
+            case 2: {
+                listaDisciplinas(qtdeDisciplinas);
+                break;
+            }
+            default: {
+                printf("Algo errado aconteceu");
+            }
+        }
+    }
+}
+
+int cadastraDisciplina() {
+    Disciplina listaDisciplinas[TAM];
+    int qtdeDisciplinas = 0;
+
+    printf("Cadastro de Disciplina\n");
+    printf("Digite o nome: \n");
+    getchar();
+    fgets(listaDisciplinas[qtdeDisciplinas].nome, 50, stdin);
+    size_t ln = strlen(listaDisciplinas[qtdeDisciplinas].nome) - 1;
+    if (listaDisciplinas[qtdeDisciplinas].nome[ln] == '\n')
+        listaDisciplinas[qtdeDisciplinas].nome[ln] = '\0';
+    printf("Digite o código da disciplina: \n");
+    scanf("%d", &listaDisciplinas[qtdeDisciplinas].codigo);
+    printf("Digite o semestre correspondente a disciplina: \n");
+    scanf("%d", &listaDisciplinas[qtdeDisciplinas].semestre);
+//    printf("Professor: \n");
+//    scanf("%d", &listaDisciplinas[qtdeDisciplinas].professor);
+    qtdeDisciplinas++;
+    printf("Cadastro finalizado\n");
+
+    return qtdeDisciplinas;
+}
+
+void listaDisciplinas(int qtdeDisciplinas) {
+
+}
