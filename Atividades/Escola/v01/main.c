@@ -3,8 +3,11 @@
 #define TAM 10
 
 int cadastraAluno();
+int cadastraProfessor();
 void listaAlunos(int qtdeAlunos);
+void listaProfessores(int qtdeProfessores);
 void menuAlunos();
+void menuProfessores();
 void chamaMenu();
 
 typedef struct dataNascimento {
@@ -19,8 +22,15 @@ typedef struct dadosAluno {
     char cpf[12];
 } Aluno;
 
-int main() {
+typedef struct dadosProfessor {
+    int matricula;
+    char nome[50];
+    char sexo;
+    Data dataNascimento;
+    char cpf[12];
+} Professor;
 
+int main() {
     chamaMenu();
 }
 
@@ -47,6 +57,10 @@ void chamaMenu() {
                 menuAlunos();
                 break;
             }
+            case 2: {
+                menuProfessores();
+                break;
+            }
         }
     }
 }
@@ -59,19 +73,18 @@ void menuAlunos() {
         printf("Menu Alunos\n");
         printf("Digite a opção:\n");
         printf("0 - Sair\n");
-        printf("1 - Cadastra aluno\n");
+        printf("1 - Cadastrar aluno\n");
         printf("2 - Listar alunos\n");
         scanf("%d", &opcaoMenuAlunos);
         switch (opcaoMenuAlunos) {
             case 0: {
                 printf("Saindo do menu de alunos\n");
-                printf("Entrando no menu principal\n");
+                printf("Voltando ao menu principal\n");
                 sair = 1;
                 break;
             }
             case 1: {
                 qtdeAlunos = cadastraAluno();
-
                 break;
             }
             case 2: {
@@ -95,13 +108,13 @@ int cadastraAluno() {
     size_t ln = strlen(listaAlunos[qtdeAlunos].nome) - 1;
     if (listaAlunos[qtdeAlunos].nome[ln] == '\n')
         listaAlunos[qtdeAlunos].nome[ln] = '\0';
-    printf("Digite o sexo (M para masculino e F para Feminino): ");
+    printf("Digite o sexo (M para masculino e F para Feminino): \n");
     scanf("%c", &listaAlunos[qtdeAlunos].sexo);
-    printf("Digite o dia de nascimento: ");
+    printf("Digite o dia de nascimento: \n");
     scanf("%d", &listaAlunos[qtdeAlunos].dataNascimento.dia);
-    printf("Digite o mês de nascimento: ");
+    printf("Digite o mês de nascimento: \n");
     scanf("%d", &listaAlunos[qtdeAlunos].dataNascimento.mes);
-    printf("Digite o ano de nascimento: ");
+    printf("Digite o ano de nascimento: \n");
     scanf("%d", &listaAlunos[qtdeAlunos].dataNascimento.ano);
     printf("Digite o CPF: \n");
     getchar();
@@ -110,7 +123,7 @@ int cadastraAluno() {
     if (listaAlunos[qtdeAlunos].cpf[ln] == '\n')
         listaAlunos[qtdeAlunos].cpf[ln] = '\0';
     qtdeAlunos++;
-    printf("Cadastro finalizado");
+    printf("Cadastro finalizado\n");
     return qtdeAlunos;
 }
 
@@ -127,3 +140,80 @@ void listaAlunos(int qtdeAlunos) {
         printf("CPF: %s\n", listaAlunos[i].cpf);
     }
 }
+
+void menuProfessores() {
+    int opcaoMenuProfessores, qtdeProfessores;
+    int sair = 0;
+
+    while (!sair) {
+        printf("Menu Professores\n");
+        printf("Digite a opção:\n");
+        printf("0 - Sair\n");
+        printf("1 - Cadastrar professor\n");
+        printf("2 - Listar professores\n");
+        scanf("%d", &opcaoMenuProfessores);
+        switch (opcaoMenuProfessores) {
+            case 0: {
+                printf("Saindo do menu de professores\n");
+                printf("Voltando ao menu principal\n");
+                sair = 1;
+                break;
+            }
+            case 1: {
+                qtdeProfessores = cadastraProfessor();
+                break;
+            }
+            case 2: {
+                listaProfessores(qtdeProfessores);
+                break;
+            }
+        }
+    }
+}
+
+int cadastraProfessor() {
+    Aluno listaProfessores[TAM];
+    int qtdeProfessores = 0;
+
+    printf("Cadastro de Aluno\n");
+    printf("Digite a matrícula: \n");
+    scanf("%d", &listaProfessores[qtdeProfessores].matricula);
+    printf("Digite o nome: \n");
+    getchar();
+    fgets(listaProfessores[qtdeProfessores].nome, 50, stdin);
+    size_t ln = strlen(listaProfessores[qtdeProfessores].nome) - 1;
+    if (listaProfessores[qtdeProfessores].nome[ln] == '\n')
+        listaProfessores[qtdeProfessores].nome[ln] = '\0';
+    printf("Digite o sexo (M para masculino e F para Feminino): \n");
+    scanf("%c", &listaProfessores[qtdeProfessores].sexo);
+    printf("Digite o dia de nascimento: \n");
+    scanf("%d", &listaProfessores[qtdeProfessores].dataNascimento.dia);
+    printf("Digite o mês de nascimento: \n");
+    scanf("%d", &listaProfessores[qtdeProfessores].dataNascimento.mes);
+    printf("Digite o ano de nascimento: \n");
+    scanf("%d", &listaProfessores[qtdeProfessores].dataNascimento.ano);
+    printf("Digite o CPF: \n");
+    getchar();
+    fgets(listaProfessores[qtdeProfessores].cpf, 12, stdin);
+    ln = strlen(listaProfessores[qtdeProfessores].cpf) - 1;
+    if (listaProfessores[qtdeProfessores].cpf[ln] == '\n')
+        listaProfessores[qtdeProfessores].cpf[ln] = '\0';
+    qtdeProfessores++;
+    printf("Cadastro finalizado\n");
+    return qtdeProfessores;
+}
+
+void listaProfessores(int qtdeProfessores) {
+    Aluno listaProfessores[TAM];
+    int i;
+    printf("Professores cadastrados \n");
+    for (i = 0; i < qtdeProfessores; i++){
+        printf("-----\n");
+        printf("Matrícula: %d\n", listaProfessores[i].matricula);
+        printf("Nome: %s\n", listaProfessores[i].nome);
+        printf("Sexo: %c\n", listaProfessores[i].sexo);
+        printf("Data Nascimento: %d/%d/%d\n", listaProfessores[i].dataNascimento.dia, listaProfessores[i].dataNascimento.mes, listaProfessores[i].dataNascimento.ano);
+        printf("CPF: %s\n", listaProfessores[i].cpf);
+    }
+}
+
