@@ -4,6 +4,7 @@
 
 #include "EstruturaVetores.h"
 
+
 int vetorPrincipal[TAM];
 
 void dobrar(int *x)
@@ -57,8 +58,11 @@ int inserirNumeroEmEstrutura(int posicao, int valor)
     int temEspaco = 0;
     int posicao_invalida = 0;
 
-    if (posicao_invalida)
+    posicao_invalida = ehPosicaoValida(posicao);
+    if (posicao_invalida == POSICAO_INVALIDA) {
         retorno = POSICAO_INVALIDA;
+        printf("posicao invalida");
+    }
     else
     {
         // testar se existe a estrutura auxiliar
