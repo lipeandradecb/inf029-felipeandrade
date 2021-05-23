@@ -61,7 +61,6 @@ int inserirNumeroEmEstrutura(int posicao, int valor)
     posicao_invalida = ehPosicaoValida(posicao);
     if (posicao_invalida == POSICAO_INVALIDA) {
         retorno = POSICAO_INVALIDA;
-        printf("posicao invalida");
     }
     else
     {

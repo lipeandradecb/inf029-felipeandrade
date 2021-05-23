@@ -54,6 +54,10 @@ int main()
                 {
                     printf("Sem estrutura Auxiliar");
                 }
+                else if (ret == POSICAO_INVALIDA)
+                {
+                    printf("Posicao invalida");
+                }
                 break;
             }
 
