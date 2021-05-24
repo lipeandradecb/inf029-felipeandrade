@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "EstruturaVetores.h"
+//#define TAM 10
 
 int menu();
 
@@ -27,6 +28,7 @@ int main()
     int op;
     int sair = 0;
     int ret;
+//    PRINCIPAL vetorPrincipal[TAM];
     while (!sair)
     {
         op = menu();
@@ -41,7 +43,7 @@ int main()
             case 1:
             { //inserir
                 //TODO
-                ret = inserirNumeroEmEstrutura(5, 25);
+                ret = inserirNumeroEmEstrutura(vet, 1, 25);
                 if (ret == SUCESSO)
                 {
                     printf("Inserido com sucesso");

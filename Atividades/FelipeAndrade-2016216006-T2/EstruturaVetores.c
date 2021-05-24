@@ -1,17 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define TAM 10
-
+//#define TAM 10
 #include "EstruturaVetores.h"
 
-
-int vetorPrincipal[TAM];
+//int vetorPrincipal[TAM];
 
 void dobrar(int *x)
 {
 
     *x = *x * 2;
 }
+
 /*
 Objetivo: criar estrutura auxiliar na posição 'posicao'.
 com tamanho 'tamanho'
@@ -50,9 +49,9 @@ Rertono (int)
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
 CONSTANTES
 */
-int inserirNumeroEmEstrutura(int posicao, int valor)
+int inserirNumeroEmEstrutura(struct vetorPrincipal, int posicao, int valor)
 {
-
+//    PRINCIPAL vetorPrincipal[TAM];
     int retorno = 0;
     int existeEstruturaAuxiliar = 0;
     int temEspaco = 0;
@@ -65,19 +64,22 @@ int inserirNumeroEmEstrutura(int posicao, int valor)
     else
     {
         // testar se existe a estrutura auxiliar
-        if (existeEstruturaAuxiliar)
+        existeEstruturaAuxiliar = verificaEstrutura(vetorPrincipal, posicao);
+        if (existeEstruturaAuxiliar == JA_TEM_ESTRUTURA_AUXILIAR)
         {
-            if (temEspaco)
+            temEspaco = verificaEspaco(vetorPrincipal, posicao);
+            if (temEspaco == SUCESSO)
             {
-                //insere
+                vetorPrincipal[posicao - 1].auxiliar[vetorPrincipal[posicao - 1].quantidade] = valor;
+                vetorPrincipal[posicao - 1].quantidade += 1;
                 retorno = SUCESSO;
             }
-            else
+            else if (temEspaco == SEM_ESPACO)
             {
                 retorno = SEM_ESPACO;
             }
         }
-        else
+        else if (existeEstruturaAuxiliar == SEM_ESTRUTURA_AUXILIAR)
         {
             retorno = SEM_ESTRUTURA_AUXILIAR;
         }
@@ -126,13 +128,12 @@ int excluirNumeroEspecificoDeEstrutura(int posicao, int valor)
 int ehPosicaoValida(int posicao)
 {
     int retorno = 0;
-    if (posicao < 1 || posicao > 10)
-    {
+    if (posicao < 1 || posicao > 10) {
         retorno = POSICAO_INVALIDA;
     }
-    else
+    else {
         retorno = SUCESSO;
-
+    }
     return retorno;
 }
 /*
@@ -271,8 +272,17 @@ Objetivo: inicializa o programa. deve ser chamado ao inicio do programa
 
 */
 
-void inicializar()
+struct inicializar()
 {
+    PRINCIPAL vetorPrincipal[TAM];
+    int i = 0;
+    while(i<TAM){
+        vetorPrincipal[i].auxiliar = NULL;
+        vetorPrincipal[i].tamanhoAux = 0;
+        vetorPrincipal[i].quantidade = 0;
+        i++;
+    }
+    return vetorPrincipal;
 }
 
 /*
@@ -284,3 +294,20 @@ para poder liberar todos os espaços de memória das estruturas auxiliares.
 void finalizar()
 {
 }
+
+int verificaEstrutura(PRINCIPAL *vetorPrincipal, int posicao) {
+    if (vetorPrincipal[posicao].auxiliar != NULL) {
+        return JA_TEM_ESTRUTURA_AUXILIAR;
+    } else {
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
+}
+
+int verificaEspaco(PRINCIPAL *vetorPrincipal, int posicao) {
+    if(vetorPrincipal[posicao - 1].quantidade >= vetorPrincipal[posicao - 1].tamanhoAux) {
+        return SEM_ESPACO;
+    } else {
+        return SUCESSO;
+    }
+}
+
