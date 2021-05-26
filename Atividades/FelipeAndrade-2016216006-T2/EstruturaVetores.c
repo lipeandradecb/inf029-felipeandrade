@@ -133,11 +133,11 @@ int excluirNumeroEspecificoDeEstrutura(int posicao, int valor) {
     int existeNumero = 0;
     int auxiliar;
 
-    if (ehPosicaoValida(posicao)) {
+    if (ehPosicaoValida(posicao) == POSICAO_INVALIDA) {
         return POSICAO_INVALIDA;
     }
 
-    posicao --;
+    posicao -= 1;
 
     if (vetorPrincipal[posicao].auxiliar == NULL) {
         return SEM_ESTRUTURA_AUXILIAR;
