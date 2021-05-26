@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#define TAM 10
 #include "EstruturaVetores.h"
+#define TAM 10
 
-//int vetorPrincipal[TAM];
+PRINCIPAL vetorPrincipal[TAM];
 
 void dobrar(int *x)
 {
@@ -24,20 +24,28 @@ Rertono (int)
 */
 int criarEstruturaAuxiliar(int posicao, int tamanho)
 {
+    if (tamanho < 1) {
+        return TAMANHO_INVALIDO;
+    }
+    if (ehPosicaoValida(posicao) == POSICAO_INVALIDA) {
+        return POSICAO_INVALIDA;
+    }
 
-    int retorno = 0;
-    // a posicao pode já existir estrutura auxiliar
-    retorno = JA_TEM_ESTRUTURA_AUXILIAR;
-    // se posição é um valor válido {entre 1 e 10}
-    retorno = POSICAO_INVALIDA;
-    // o tamanho ser muito grande
-    retorno = SEM_ESPACO_DE_MEMORIA;
-    // o tamanho nao pode ser menor que 1
-    retorno = TAMANHO_INVALIDO;
-    // deu tudo certo, crie
-    retorno = SUCESSO;
+    posicao --;
 
-    return retorno;
+    if (vetorPrincipal[posicao].auxiliar != NULL) {
+        return JA_TEM_ESTRUTURA_AUXILIAR;
+    }
+
+    vetorPrincipal[posicao].auxiliar = (int*)malloc(tamanho*sizeof(int));
+
+    if (vetorPrincipal[posicao].auxiliar == NULL) {
+        return SEM_ESPACO_DE_MEMORIA;
+    }
+
+    vetorPrincipal[posicao].tamanhoAux = tamanho;
+
+    return SUCESSO;
 }
 
 /*
@@ -49,9 +57,8 @@ Rertono (int)
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
 CONSTANTES
 */
-int inserirNumeroEmEstrutura(struct vetorPrincipal, int posicao, int valor)
+int inserirNumeroEmEstrutura(int posicao, int valor)
 {
-//    PRINCIPAL vetorPrincipal[TAM];
     int retorno = 0;
     int existeEstruturaAuxiliar = 0;
     int temEspaco = 0;
@@ -59,33 +66,46 @@ int inserirNumeroEmEstrutura(struct vetorPrincipal, int posicao, int valor)
 
     posicao_invalida = ehPosicaoValida(posicao);
     if (posicao_invalida == POSICAO_INVALIDA) {
-        retorno = POSICAO_INVALIDA;
+        return POSICAO_INVALIDA;
     }
-    else
-    {
-        // testar se existe a estrutura auxiliar
-        existeEstruturaAuxiliar = verificaEstrutura(vetorPrincipal, posicao);
-        if (existeEstruturaAuxiliar == JA_TEM_ESTRUTURA_AUXILIAR)
-        {
-            temEspaco = verificaEspaco(vetorPrincipal, posicao);
-            if (temEspaco == SUCESSO)
-            {
-                vetorPrincipal[posicao - 1].auxiliar[vetorPrincipal[posicao - 1].quantidade] = valor;
-                vetorPrincipal[posicao - 1].quantidade += 1;
-                retorno = SUCESSO;
-            }
-            else if (temEspaco == SEM_ESPACO)
-            {
-                retorno = SEM_ESPACO;
-            }
-        }
-        else if (existeEstruturaAuxiliar == SEM_ESTRUTURA_AUXILIAR)
-        {
-            retorno = SEM_ESTRUTURA_AUXILIAR;
-        }
-    }
+    posicao --;
 
-    return retorno;
+    if(vetorPrincipal[posicao].auxiliar == NULL)
+        return SEM_ESTRUTURA_AUXILIAR;
+
+    int quantidade = vetorPrincipal[posicao].quantidade;
+
+    if(quantidade >= vetorPrincipal[posicao].tamanhoAux)
+        return SEM_ESPACO;
+
+    vetorPrincipal[posicao].auxiliar[quantidade] = valor;
+    vetorPrincipal[posicao].quantidade++;
+
+    return SUCESSO;
+//    else
+//    {
+//        existeEstruturaAuxiliar = verificaEstrutura(vetorPrincipal, posicao);
+//        if (existeEstruturaAuxiliar == JA_TEM_ESTRUTURA_AUXILIAR)
+//        {
+//            temEspaco = verificaEspaco(vetorPrincipal, posicao);
+//            if (temEspaco == SUCESSO)
+//            {
+//                vetorPrincipal[posicao - 1].auxiliar[vetorPrincipal[posicao - 1].quantidade] = valor;
+//                vetorPrincipal[posicao - 1].quantidade += 1;
+//                retorno = SUCESSO;
+//            }
+//            else if (temEspaco == SEM_ESPACO)
+//            {
+//                retorno = SEM_ESPACO;
+//            }
+//        }
+//        else if (existeEstruturaAuxiliar == SEM_ESTRUTURA_AUXILIAR)
+//        {
+//            retorno = SEM_ESTRUTURA_AUXILIAR;
+//        }
+//    }
+
+//    return retorno;
 }
 
 /*
@@ -272,17 +292,12 @@ Objetivo: inicializa o programa. deve ser chamado ao inicio do programa
 
 */
 
-struct inicializar()
-{
-    PRINCIPAL vetorPrincipal[TAM];
-    int i = 0;
-    while(i<TAM){
+void inicializar() {
+    for (int i=0; i < TAM; i++) {
         vetorPrincipal[i].auxiliar = NULL;
         vetorPrincipal[i].tamanhoAux = 0;
         vetorPrincipal[i].quantidade = 0;
-        i++;
     }
-    return vetorPrincipal;
 }
 
 /*
@@ -291,23 +306,9 @@ para poder liberar todos os espaços de memória das estruturas auxiliares.
 
 */
 
-void finalizar()
-{
-}
-
-int verificaEstrutura(PRINCIPAL *vetorPrincipal, int posicao) {
-    if (vetorPrincipal[posicao].auxiliar != NULL) {
-        return JA_TEM_ESTRUTURA_AUXILIAR;
-    } else {
-        return SEM_ESTRUTURA_AUXILIAR;
-    }
-}
-
-int verificaEspaco(PRINCIPAL *vetorPrincipal, int posicao) {
-    if(vetorPrincipal[posicao - 1].quantidade >= vetorPrincipal[posicao - 1].tamanhoAux) {
-        return SEM_ESPACO;
-    } else {
-        return SUCESSO;
+void finalizar() {
+    for(int i=0; i < TAM; i++) {
+        free(vetorPrincipal[i].auxiliar);
     }
 }
 

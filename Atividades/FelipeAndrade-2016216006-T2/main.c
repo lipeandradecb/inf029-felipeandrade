@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "EstruturaVetores.h"
-//#define TAM 10
 
 int menu();
 
@@ -28,7 +26,7 @@ int main()
     int op;
     int sair = 0;
     int ret;
-//    PRINCIPAL vetorPrincipal[TAM];
+
     while (!sair)
     {
         op = menu();
@@ -41,24 +39,23 @@ int main()
                 break;
             }
             case 1:
-            { //inserir
-                //TODO
-                ret = inserirNumeroEmEstrutura(vet, 1, 25);
+            {
+                ret = inserirNumeroEmEstrutura(1, 25);
                 if (ret == SUCESSO)
                 {
-                    printf("Inserido com sucesso");
+                    printf("Inserido com sucesso\n");
                 }
                 else if (ret == SEM_ESPACO)
                 {
-                    printf("Sem Espaço");
+                    printf("Sem espaco\n");
                 }
                 else if (ret == SEM_ESTRUTURA_AUXILIAR)
                 {
-                    printf("Sem estrutura Auxiliar");
+                    printf("Sem estrutura auxiliar\n");
                 }
                 else if (ret == POSICAO_INVALIDA)
                 {
-                    printf("Posicao invalida");
+                    printf("Posicao invalida\n");
                 }
                 break;
             }
