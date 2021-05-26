@@ -82,30 +82,6 @@ int inserirNumeroEmEstrutura(int posicao, int valor)
     vetorPrincipal[posicao].quantidade++;
 
     return SUCESSO;
-//    else
-//    {
-//        existeEstruturaAuxiliar = verificaEstrutura(vetorPrincipal, posicao);
-//        if (existeEstruturaAuxiliar == JA_TEM_ESTRUTURA_AUXILIAR)
-//        {
-//            temEspaco = verificaEspaco(vetorPrincipal, posicao);
-//            if (temEspaco == SUCESSO)
-//            {
-//                vetorPrincipal[posicao - 1].auxiliar[vetorPrincipal[posicao - 1].quantidade] = valor;
-//                vetorPrincipal[posicao - 1].quantidade += 1;
-//                retorno = SUCESSO;
-//            }
-//            else if (temEspaco == SEM_ESPACO)
-//            {
-//                retorno = SEM_ESPACO;
-//            }
-//        }
-//        else if (existeEstruturaAuxiliar == SEM_ESTRUTURA_AUXILIAR)
-//        {
-//            retorno = SEM_ESTRUTURA_AUXILIAR;
-//        }
-//    }
-
-//    return retorno;
 }
 
 /*
@@ -121,8 +97,23 @@ Rertono (int)
 */
 int excluirNumeroDoFinaldaEstrutura(int posicao)
 {
-    int retorno = SUCESSO;
-    return retorno;
+    if (ehPosicaoValida(posicao) == POSICAO_INVALIDA) {
+        return POSICAO_INVALIDA;
+    }
+
+    posicao --;
+
+    if(vetorPrincipal[posicao].auxiliar == NULL) {
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
+
+    if(vetorPrincipal[posicao].quantidade == 0) {
+        return ESTRUTURA_AUXILIAR_VAZIA;
+    }
+
+    vetorPrincipal[posicao].quantidade--;
+
+    return SUCESSO;
 }
 
 /*
@@ -138,10 +129,46 @@ Rertono (int)
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
 
 */
-int excluirNumeroEspecificoDeEstrutura(int posicao, int valor)
-{
-    int retorno = SUCESSO;
-    return retorno;
+int excluirNumeroEspecificoDeEstrutura(int posicao, int valor) {
+    int existeNumero = 0;
+    int auxiliar;
+
+    if (ehPosicaoValida(posicao)) {
+        return POSICAO_INVALIDA;
+    }
+
+    posicao --;
+
+    if (vetorPrincipal[posicao].auxiliar == NULL) {
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
+
+    if (vetorPrincipal[posicao].quantidade == 0) {
+        return ESTRUTURA_AUXILIAR_VAZIA;
+    }
+
+    int qtd = vetorPrincipal[posicao].quantidade;
+
+    if (qtd == 1 && vetorPrincipal[posicao].auxiliar[0] == valor) {
+        existeNumero = 1;
+    } else {
+        for (int i = 0; i < qtd - 1; i++) {
+            if (vetorPrincipal[posicao].auxiliar[i] == valor) {
+                auxiliar = vetorPrincipal[posicao].auxiliar[i];
+                vetorPrincipal[posicao].auxiliar[i] = vetorPrincipal[posicao].auxiliar[i + 1];
+                vetorPrincipal[posicao].auxiliar[i + 1] = auxiliar;
+                existeNumero = 1;
+            }
+        }
+    }
+
+    if (existeNumero == 0) {
+        return NUMERO_INEXISTENTE;
+    } else {
+        vetorPrincipal[posicao].quantidade--;
+    }
+
+    return SUCESSO;
 }
 
 // se posição é um valor válido {entre 1 e 10}
@@ -198,11 +225,23 @@ Rertono (int)
     SUCESSO - recuperado com sucesso os valores da estrutura na posição 'posicao'
     SEM_ESTRUTURA_AUXILIAR - Não tem estrutura auxiliar
 */
-int getDadosDeTodasEstruturasAuxiliares(int vetorAux[])
-{
+int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
+    int qtd;
+    int k;
 
-    int retorno = 0;
-    return retorno;
+    if(verificaTodasEstruturasAuxiliaresVazias())
+        return TODAS_ESTRUTURAS_AUXILIARES_VAZIAS;
+
+    for(int i=0; i < TAM; i++) {
+        if(vetorPrincipal[i].auxiliar != NULL) {
+            qtd = vetorPrincipal[i].quantidade;
+            for (int j = 0; j < qtd; j++, k++) {
+                vetorAux[k] = vetorPrincipal[i].auxiliar[j];
+            }
+        }
+    }
+
+    return SUCESSO;
 }
 
 /*
@@ -310,5 +349,20 @@ void finalizar() {
     for(int i=0; i < TAM; i++) {
         free(vetorPrincipal[i].auxiliar);
     }
+}
+
+int verificaTodasEstruturasAuxiliaresVazias() {
+    int vazia = 0;
+
+    for(int i=0; i < TAM; i++) {
+        if (vetorPrincipal[i].quantidade == 0) {
+            vazia++;
+        }
+    }
+
+    if(vazia == TAM) {
+        return 1;
+    }
+    return 0;
 }
 

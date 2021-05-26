@@ -66,8 +66,7 @@ int main()
                 break;
             }
 
-            case 3:
-            { //recuperar dados estrutura auxiliar
+            case 3: { //recuperar dados estrutura auxiliar
                 int posicao, retorno;
                 printf("Qual a estrutura a ser listada (1..10)?");
                 scanf("%d", &posicao);
@@ -97,8 +96,7 @@ int main()
                 break;
             }
 
-            case 10:
-            { //dobrar
+            case 10: { //dobrar
                 //ler um numero
                 int valor;
                 scanf("%i", &valor);
