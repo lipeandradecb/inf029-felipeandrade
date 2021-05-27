@@ -192,12 +192,20 @@ Retorno (int)
     SEM_ESTRUTURA_AUXILIAR - Não tem estrutura auxiliar
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
 */
-int getDadosEstruturaAuxiliar(int posicao, int vetorAux[])
-{
+int getDadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
+    if (ehPosicaoValida(posicao) == POSICAO_INVALIDA) {
+        return POSICAO_INVALIDA;
+    }
 
-    int retorno = 0;
+    posicao -= 1;
 
-    return retorno;
+    if (vetorPrincipal[posicao].auxiliar == NULL) {
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
+
+    int qtd = vetorPrincipal[posicao].quantidade;
+    getDadosAuxiliar(posicao, vetorAux, qtd);
+    return SUCESSO;
 }
 
 /*
@@ -209,12 +217,24 @@ Rertono (int)
     SEM_ESTRUTURA_AUXILIAR - Não tem estrutura auxiliar
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
 */
-int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[])
-{
+int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
+    if(ehPosicaoValida(posicao) == POSICAO_INVALIDA) {
+        return POSICAO_INVALIDA;
+    }
 
-    int retorno = 0;
+    posicao -= 1;
 
-    return retorno;
+    if(vetorPrincipal[posicao].auxiliar  == NULL) {
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
+
+    int qtd = vetorPrincipal[posicao].quantidade;
+
+    getDadosAuxiliar(posicao, vetorAux, qtd);
+
+    ordenaDados(vetorAux, qtd);
+
+    return SUCESSO;
 }
 
 /*
@@ -240,7 +260,6 @@ int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
             }
         }
     }
-
     return SUCESSO;
 }
 
@@ -364,5 +383,25 @@ int verificaTodasEstruturasAuxiliaresVazias() {
         return 1;
     }
     return 0;
+}
+
+void getDadosAuxiliar(int posicao, int vetorAux[], int j) {
+    for (int i = 0; i < j; i++) {
+        vetorAux[i] = vetorPrincipal[posicao].auxiliar[i];
+    }
+}
+
+void ordenaDados (int vetorAux[], int k) {
+    int aux;
+
+    for(int i = 0; i < k; i++) {
+        for(int j = i + 1; j < k; j++) {
+            if(vetorAux[i] > vetorAux[j]) {
+                aux = vetorAux[i];
+                vetorAux[i] = vetorAux[j];
+                vetorAux[j] = aux;
+            }
+        }
+    }
 }
 

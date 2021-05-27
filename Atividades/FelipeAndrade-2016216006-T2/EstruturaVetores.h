@@ -38,5 +38,7 @@ void inicializar();
 void finalizar();
 void dobrar(int *x);
 int verificaTodasEstruturasAuxiliaresVazias();
+void getDadosAuxiliar(int posicao, int vetorAux[], int j);
+void ordenaDados (int vetorAux[], int k);
 
 #endif  // TRABALHO2_ESTRUTURAVETORES_H
