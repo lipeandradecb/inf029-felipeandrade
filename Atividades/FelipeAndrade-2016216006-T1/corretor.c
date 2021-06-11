@@ -16,10 +16,12 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 
 #include "FelipeAndrade-2016216006-T1.h"
 
+void show_log(char *str);
 void testSomar();    //função utilizada para testes
 void testFatorial(); //função utilizada para testes
 void testQ1();
@@ -31,18 +33,26 @@ void testQ6();
 
 int main()
 {
-    //testSomar();
-    //testFatorial();
+    testSomar();
+    testFatorial();
     testQ1();
-    //testQ2();
-//    testQ3();
-    /*testQ4();
+    testQ2();
+    testQ3();
+    testQ4();
     testQ5();
-    testQ6();*/
+    testQ6();
+}
+
+int ligado = 1;
+void show_log(char *str)
+{
+    if (ligado)
+        printf("###%s###\n", str);
 }
 
 void testSomar()
 {
+    show_log("testSomar()");
     printf("%d\n", somar(3, 4) == 7);
     printf("%d\n", somar(-1, -3) == 2);
     printf("%d\n", somar(-6, 6) == 0);
@@ -52,6 +62,7 @@ void testSomar()
 
 void testFatorial()
 {
+    show_log("testFatorial()");
     printf("%d\n", fatorial(3) == 6);
     printf("%d\n", fatorial(1) == 1);
     printf("%d\n", fatorial(5) == 120);
@@ -59,6 +70,7 @@ void testFatorial()
 
 void testQ1()
 {
+    show_log("testQ1()");
     char str[11];
     strcpy(str, "29/02/2015");
     printf("%d\n", q1(str) == 0);
@@ -74,6 +86,7 @@ void testQ1()
 
 void testQ2()
 {
+    show_log("testQ2()");
     char datainicial[11], datafinal[11];
     int qtdDias, qtdMeses, qtdAnos;
     int retorno;
@@ -127,6 +140,7 @@ void testQ2()
 
 void testQ3()
 {
+    show_log("testQ3()");
     char str[250];
     strcpy(str, "Renato Lima Novais");
     printf("%d\n", q3(str, 'a', 0) == 3);
@@ -138,6 +152,7 @@ void testQ3()
 
 void testQ4()
 {
+    show_log("testQ4()");
     char strTexto[250];
     char strBusca[50];
     int posicoes[30];
@@ -171,6 +186,7 @@ void testQ4()
 
 void testQ5()
 {
+    show_log("testQ5()");
     printf("%d\n", q5(345) == 543);
     printf("%d\n", q5(78) == 87);
     printf("%d\n", q5(3) == 3);
@@ -179,6 +195,7 @@ void testQ5()
 
 void testQ6()
 {
+    show_log("testQ6()");
     printf("%d\n", q6(34567368, 3) == 2);
     printf("%d\n", q6(34567368, 4576) == 0);
     printf("%d\n", q6(3539343, 3) == 4);

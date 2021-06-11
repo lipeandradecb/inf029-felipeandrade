@@ -11,15 +11,21 @@
 //  O aluno deve preencher seus dados abaixo, e implementar as questões do trabalho
 
 //  ----- Dados do Aluno -----
-//  Nome:
-//  email:
-//  Matrícula:
-//  Semestre:
+//  Nome: Felipe Andrade Silva
+//  email: felipeandradecb@gmail.com
+//  Matrícula: 2016216006
+//  Semestre: 2
 
 //  Copyright © 2016 Renato Novais. All rights reserved.
 // Última atualização: 12/12/2017
 
 // #################################################
+
+typedef struct {
+    int dia;
+    int mes;
+    int ano;
+} Data;
 
 int somar(int x, int y); //função utilizada para testes
 int fatorial(int x); //função utilizada para testes
@@ -29,3 +35,5 @@ int q3(char *texto, char c, int isCaseSensitive);
 int q4(char *strTexto, char *strBusca, int posicoes[30]);
 int q5(int num);
 int q6(int numerobase, int numerobusca);
+Data QuebraData(char *data);
+int ValidaData(int dia, int mes, int ano);

@@ -12,10 +12,10 @@
 //  O aluno deve preencher seus dados abaixo, e implementar as questões do trabalho
 
 //  ----- Dados do Aluno -----
-//  Nome:
-//  email:
-//  Matrícula:
-//  Semestre:
+//  Nome: Felipe Andrade Silva
+//  email: felipeandradecb@gmail.com
+//  Matrícula: 2016216006
+//  Semestre: 2
 
 //  Copyright © 2016 Renato Novais. All rights reserved.
 // Última atualização: 20/06/2018 - 19/08/2016
@@ -23,6 +23,8 @@
 // #################################################
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "FelipeAndrade-2016216006-T1.h"
 
 /*
@@ -55,8 +57,20 @@ int somar(int x, int y)
     fatorial de x -> x!
  */
 int fatorial(int x)
-{ //função utilizada para testes
-    int fat = 1;
+{
+    int fat = 0;
+
+    if(x < 0) {
+        fat = 0;
+    }
+    else if(x == 0 || x == 1) {
+        fat = 1;
+    } else {
+        for(fat = 1; x > 1; x = x - 1) {
+            fat *= x;
+        }
+    }
+
     return fat;
 }
 
@@ -71,67 +85,63 @@ int teste(int a)
     return val;
 }
 
-typedef struct DQ
-{
-    char sDia [3];
-    char sMes [3];
-    char sAno [3];
-    int valido; // 0 se inválido, e 1 se válido
+//typedef struct DQ
+//{
+//    char sDia [3];
+//    char sMes [3];
+//    char sAno [3];
+//    int valido; // 0 se inválido, e 1 se válido
+//
+//} DataQuebrada;
 
-} DataQuebrada;
+Data QuebraData(char *data) {
+    char dia[3];
+    char mes[3];
+    char ano[5];
+    int barra = 0, k = 0, i = 0;
+    Data dataInteira;
 
-DataQuebrada quebraData(char *data){
-
-    char sDia[3];
-    char sMes[3];
-    char sAno[5];
-    int i;
-
-    for (i = 0; data[i] != '/'; i++){
-        sDia[i] = data[i];
-    }
-    if(i == 1 || i == 2){ // testa se tem 1 ou dois digitos
-        sDia[i] = '\0';  // coloca o barra zero no final
-    }else
-        return 0;
-
-
-    int j = i + 1; //anda 1 cada para pular a barra
-    i = 0;
-    for (; data[j] != '/'; j++){
-        sMes[i] = data[j];
+    while(data[i] != '\0'){
+        if(data[i] == '/'){
+            barra++;
+            k=0;
+        }
+        if(barra==0){
+            dia[k]=data[i];
+            dia[k+1]='\0';
+            k++;
+        }
+        else if(barra == 1){
+            if(data[i] == '/'){
+                i++;
+            }
+            mes[k] = data[i];
+            mes[k+1] = '\0';
+            k++;
+        }
+        else if(barra == 2){
+            if(data[i] == '/'){
+                i++;
+            }
+            ano[k] = data[i];
+            ano[k+1] = '\0';
+            k++;
+        }
         i++;
     }
 
-    if(i == 1 || i == 2){ // testa se tem 1 ou dois digitos
-        sMes[i] = '\0';  // coloca o barra zero no final
-    }else
-        return 0;
+    dataInteira.dia = atoi(dia);
+    dataInteira.mes = atoi(mes);
+    dataInteira.ano = atoi(ano);
 
-
-    j = j + 1; //anda 1 cada para pular a barra
-    i = 0;
-
-    for(; data[j] != '\0'; j++){
-        sAno[i] = data[j];
-        i++;
+    if (dataInteira.ano >= 0 && dataInteira.ano <= 18){
+        dataInteira.ano += 2000;
+    }
+    else if (dataInteira.ano >= 19 && dataInteira.ano <= 99){
+        dataInteira.ano += 1900;
     }
 
-    if(i == 2 || i == 4){ // testa se tem 2 ou 4 digitos
-        sAno[i] = '\0';  // coloca o barra zero no final
-    }else
-        return 0;
-
-
-    //imprimir os valores apenas para teste
-    printf("---------------");
-    printf("Data: %s\n", data);
-    printf("Dia: %s\n", sDia);
-    printf("Mes: %s\n", sMes);
-    printf("Ano: %s\n", sAno);
-
-    return 1;
-
+    return dataInteira;
 }
 /*
  Q1 = validar data
@@ -148,24 +158,12 @@ DataQuebrada quebraData(char *data){
  */
 int q1(char *data)
 {
-    int datavalida = 1;
+    int dataValida = 1;
 
-    //quebrar a string data em strings sDia, sMes, sAno
+    Data dataQuebrada = QuebraData(data);
+    dataValida = ValidaData(dataQuebrada.dia,dataQuebrada.mes,dataQuebrada.ano);
 
-    DataQuebrada dataQuebrada = quebraData(data);
-    if (dataQuebrada.valido == 0) return 0;
-
-    //converter sDia, sMes e sAno em inteiros (ex: atoi)
-
-    //criar as variáveis iDia, iMes, iAno
-    int iAno = atoi(dataQuebrada.sAno);
-
-    printf("%s\n", data);
-
-    if (datavalida)
-        return 1;
-    else
-        return 0;
+    return dataValida;
 }
 
 /*
@@ -273,4 +271,19 @@ int q6(int numerobase, int numerobusca)
 {
     int qtdOcorrencias;
     return qtdOcorrencias;
+}
+
+int ValidaData(int dia, int mes, int ano) {
+    if ((dia < 1 || dia > 31) || (mes < 1 || mes > 12) || (ano < 1 || ano > 2021))
+        return 0;
+
+    if (dia > 30 && (mes == 4 || mes == 6 || mes == 9 || mes == 11))
+        return 0;
+
+    if (dia > 29 && (mes == 2 && ano % 4 == 0 || ano % 400 == 0 && ano % 100 != 0))
+        return 0;
+    if (dia > 28 && (mes == 2 && ano % 4 != 0 || ano % 400 != 0 && ano % 100 == 0))
+        return 0;
+
+    return 1;
 }
