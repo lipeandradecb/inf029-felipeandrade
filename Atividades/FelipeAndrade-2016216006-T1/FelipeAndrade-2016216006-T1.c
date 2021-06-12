@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "FelipeAndrade-2016216006-T1.h"
 
 /*
@@ -156,8 +157,7 @@ Data QuebraData(char *data) {
     Não utilizar funções próprias de string (ex: strtok)
     pode utilizar strlen para pegar o tamanho da string
  */
-int q1(char *data)
-{
+int q1(char *data) {
     int dataValida = 1;
 
     Data dataQuebrada = QuebraData(data);
@@ -178,18 +178,29 @@ int q1(char *data)
     3 -> datafinal inválida
     4 -> datainicial > datafinal
  */
-int q2(char *datainicial, char *datafinal, int *qtdDias, int *qtdMeses, int *qtdAnos)
-{
-
+int q2(char *datainicial, char *datafinal, int *qtdDias, int *qtdMeses, int *qtdAnos) {
     //calcule os dados e armazene nas três variáveis a seguir
     int nDias, nMeses, nAnos;
 
     if (q1(datainicial) == 0)
         return 2;
 
-    nDias = 4;
-    nMeses = 10;
-    nAnos = 2;
+    if (q1(datafinal) == 0)
+        return 3;
+
+    Data dataQuebradaInicial = QuebraData(datainicial);
+    int nDiasInicial = dataQuebradaInicial.dia;
+    int nMesesInicial = dataQuebradaInicial.mes;
+    int nAnosInicial = dataQuebradaInicial.dia;
+
+    Data dataQuebradaFinal = QuebraData(datafinal);
+    int nDiasFinal = dataQuebradaFinal.dia;
+    int nMesesFinal = dataQuebradaFinal.mes;
+    int nAnosFinal = dataQuebradaFinal.dia;
+
+    nDias = nDiasFinal - nDiasInicial;
+    nMeses = nMesesFinal - nMesesInicial;
+    nAnos = nAnosFinal - nAnosInicial;
 
     /*mantenha o código abaixo, para salvar os dados em
     nos parâmetros da funcao
@@ -199,7 +210,10 @@ int q2(char *datainicial, char *datafinal, int *qtdDias, int *qtdMeses, int *qtd
     *qtdMeses = nMeses;
 
     //coloque o retorno correto
-    return 1;
+    if (nDias > -1 && nMeses > -1 && nAnos > -1)
+        return 1;
+
+    return 4;
 }
 
 /*
@@ -212,9 +226,23 @@ int q2(char *datainicial, char *datafinal, int *qtdDias, int *qtdMeses, int *qtd
  @saida
     Um número n >= 0.
  */
-int q3(char *texto, char c, int isCaseSensitive)
-{
-    int qtdOcorrencias = -1;
+int q3(char *texto, char c, int isCaseSensitive) {
+    int qtdOcorrencias = 0;
+    int tamTexto = 0;
+
+    for(int k = 0; texto[k] != '\0'; k++)
+        tamTexto++;
+
+    if (isCaseSensitive == 1)
+        for (int i = 0; i < tamTexto; i++)
+            if (texto[i] == c)
+                qtdOcorrencias++;
+
+    if (isCaseSensitive != 1)
+        for(int i = 0; i < tamTexto; i++)
+            if (texto[i] == toupper(c) || texto[i] == tolower(c))
+                qtdOcorrencias++;
+
 
     return qtdOcorrencias;
 }
@@ -234,9 +262,40 @@ int q3(char *texto, char c, int isCaseSensitive)
         O retorno da função, n, nesse caso seria 1;
 
  */
-int q4(char *strTexto, char *strBusca, int posicoes[30])
-{
-    int qtdOcorrencias = -1;
+int q4(char *strTexto, char *strBusca, int posicoes[30]) {
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    int acentos = 0;
+    int tamTexto = 0;
+    int tamPalavra = 0;
+
+    for(int x = 0; strTexto[x] != '\0'; x++)
+        tamTexto++;
+
+    for(int y = 0; strBusca[y] != '\0'; y++)
+        tamPalavra++;
+
+    for(i = 0; i < tamTexto; i++) {
+        if(strBusca[0] == strTexto[i]) {
+            while(strBusca[j] == strTexto[i]) {
+                i++;
+                j++;
+            }
+            if(j == tamPalavra) {
+                posicoes[k] = i - (tamPalavra - 1) - acentos;
+                k++;
+                posicoes[k] = i - acentos;
+                k++;
+            }
+            j = 0;
+        }
+        if(strTexto[i] < 0 && strTexto[i + 1] < 0)
+            acentos++;
+    }
+
+    int qtdOcorrencias = 0;
+    qtdOcorrencias = k/2;
 
     return qtdOcorrencias;
 }
@@ -251,10 +310,17 @@ int q4(char *strTexto, char *strBusca, int posicoes[30])
     Número invertido
  */
 
-int q5(int num)
-{
+int q5(int num) {
+    int invertido = 0;
+    int temp;
 
-    return num;
+    while(num > 0) {
+        temp = num % 10;
+        invertido = invertido * 10 + temp;
+        num = num / 10;
+    }
+
+    return invertido;
 }
 
 /*
